@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * Anthony Wessel
+ * Assignment 7 - Challenge 4
+ * Moves toward the player's goal
+ */
+
 using UnityEngine;
 
 public class EnemyX : MonoBehaviour
@@ -13,6 +17,7 @@ public class EnemyX : MonoBehaviour
     {
         enemyRb = GetComponent<Rigidbody>();
         playerGoal = GameObject.FindGameObjectWithTag("PlayerGoal");
+        speed *= SpawnManagerX.enemySpeedMultiplier;
     }
 
     // Update is called once per frame
@@ -34,6 +39,7 @@ public class EnemyX : MonoBehaviour
         else if (other.gameObject.name == "Player Goal")
         {
             Destroy(gameObject);
+            GameManager.Lose();
         }
 
     }

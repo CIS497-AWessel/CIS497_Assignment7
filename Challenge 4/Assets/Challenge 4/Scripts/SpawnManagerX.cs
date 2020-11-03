@@ -1,6 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * Anthony Wessel
+ * Assignment 7 - Challenge 4
+ * Manages waves and spawns enemies and powerups
+ */
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnManagerX : MonoBehaviour
 {
@@ -14,19 +19,30 @@ public class SpawnManagerX : MonoBehaviour
     public int enemyCount;
     public int waveCount = 1;
 
+    public static float enemySpeedMultiplier = 1;
 
-    public GameObject player; 
+    public GameObject player;
+    public Text ScoreText;
 
     // Update is called once per frame
     void Update()
     {
-        enemyCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
+        if (!GameManager.gameInProgress) return;
+
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
         if (enemyCount == 0)
         {
+            if (waveCount-1 == 10)
+            {
+                GameManager.Win();
+                return;
+            }
             SpawnEnemyWave(waveCount);
         }
 
+        ScoreText.text = "Wave: " + (waveCount-1) +
+            "\nRemaining Enemies: " + enemyCount;
     }
 
     // Generate random spawn position for powerups and enemy balls
@@ -49,12 +65,13 @@ public class SpawnManagerX : MonoBehaviour
         }
 
         // Spawn number of enemy balls based on wave number
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
             Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
         }
 
         waveCount++;
+        enemySpeedMultiplier += 0.1f;
         ResetPlayerPosition(); // put player back at start
 
     }

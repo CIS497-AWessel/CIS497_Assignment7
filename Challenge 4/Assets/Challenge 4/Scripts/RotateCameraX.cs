@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * Anthony Wessel
+ * Assignment 7 - Challenge 4
+ * Rotates the camera based on player input
+ */
+
 using UnityEngine;
 
 public class RotateCameraX : MonoBehaviour
